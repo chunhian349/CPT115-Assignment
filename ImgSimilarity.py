@@ -61,9 +61,28 @@ image1 = Image.open("C:/Users/chunh/Desktop/Python practice/3.png")
 image2 = Image.open("C:/Users/chunh/Desktop/Python practice/7.png")
 
 pixel_Matrices1 = np.array( image1 )
+pixel_Matrices2 = np.array( image2 )
 
 #Convert matrix into vector
 ori_Vect = np.reshape(  pixel_Matrices1, ( len(pixel_Matrices1) * len(pixel_Matrices1[0]) )  )
+
+Vect2 = np.reshape(  pixel_Matrices2, ( len(pixel_Matrices2) * len(pixel_Matrices2[0]) )  )
+
+
+print("Calculating CS and aCS of 2 different image")
+
+similar1 = cosineSimilarity(ori_Vect, Vect2)
+a_similar1 = adjustedCosineSimilarity(ori_Vect, Vect2)
+
+difference = abs( similar1 - a_similar1 )
+
+print("Cosine similarity: %f" %similar1)
+print("Adjusted cosine similarity: %f" %a_similar1)
+print("Differences between CS and aCS: %f" %difference)
+
+
+
+print("Calculating CS and aCS of 2 similar image with different brightness")
 
 modified_Vect = ori_Vect.copy()
 
@@ -73,14 +92,6 @@ modified_Vect = ori_Vect.copy()
 for i in range (len(modified_Vect)) :
     if (modified_Vect[i] >= 155) :
         modified_Vect[i] -= 100
-
-#print("Calculating CS and aCS of 2 different image")
-
-
-
-
-
-print("Calculating CS and aCS of 2 similar image with different brightness")
 
 brighten_Vect = modified_Vect.copy()
 
@@ -118,4 +129,4 @@ brighten_Vect = np.reshape(brighten_Vect, ( len(pixel_Matrices1), len(pixel_Matr
 img2 = Image.fromarray(brighten_Vect, image1.mode)
 
 img1.show()
-img2.show()
+img2.show() 
