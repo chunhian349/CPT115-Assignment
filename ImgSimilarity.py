@@ -108,11 +108,11 @@ def calc_2_Images() :
     diff = abs( CS - aCS )
 
     print("\n                Calculation Result                ")
-    print("**************************************************")
+    print("***************************************************")
     print("Cosine similarity:                        %f" %CS)
     print("Adjusted cosine similarity:               %f" %aCS)
     print("Differences between CS and aCS:           %f" %diff)
-    print("**************************************************")
+    print("***************************************************")
 
     input("\nPress any key to continue...")
 
