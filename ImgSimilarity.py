@@ -111,7 +111,7 @@ def calc_2_Images() :
         print("***************************************************")
 
     else:
-        print("\nBoth images should have same size, try again later.")
+        print("\nBoth images must have same size, try again later.")
 
     input("\nPress any key to continue...")
 
