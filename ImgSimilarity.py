@@ -21,11 +21,9 @@ def cosineSimilarity(vect1, vect2):
     mag2 = 0.0
 
     for i in range (len(vect1)) : 
-        # Need convert into normal integer since pixel are stored in int8
-        # If not, overflow may occur and affect the calculation
-        dotP += int(vect1[i]) * int(vect2[i])   
-        mag1 += int(vect1[i]) ** 2 
-        mag2 += int(vect2[i]) ** 2
+        dotP += vect1[i] * vect2[i]   
+        mag1 += vect1[i] ** 2 
+        mag2 += vect2[i] ** 2
 
     mag1 = np.sqrt(mag1) 
     mag2 = np.sqrt(mag2) 
@@ -45,8 +43,8 @@ def adjustedCosineSimilarity(vect1, vect2):
     avg2 = 0.0
 
     for i in range (len(vect1)):
-        avg1 += int(vect1[i])
-        avg2 += int(vect2[i])
+        avg1 += vect1[i]
+        avg2 += vect2[i]
 
     avg1 = avg1 / len(vect1)
     avg2 = avg2 / len(vect2)
@@ -56,10 +54,9 @@ def adjustedCosineSimilarity(vect1, vect2):
     sqrt2 = 0.0
 
     for i in range (len(vect1)) : 
-        # Purpose of datatype conversion same as cosine similarity
-        dotP += ( int(vect1[i]) - avg1 ) * ( int(vect2[i]) - avg2 )
-        sqrt1 += ( int(vect1[i]) - avg1 ) ** 2 
-        sqrt2 += ( int(vect2[i]) - avg2 ) ** 2
+        dotP += ( vect1[i] - avg1 ) * ( vect2[i] - avg2 )
+        sqrt1 += ( vect1[i] - avg1 ) ** 2 
+        sqrt2 += ( vect2[i] - avg2 ) ** 2
 
     sqrt1 =  np.sqrt(sqrt1) 
     sqrt2 =  np.sqrt(sqrt2) 
@@ -75,13 +72,16 @@ def imgToVect(img_name) :
     # Read image from opened folder
     img = Image.open(img_name)
 
-    #Convert image into a matrix of pixels
-    pixel_Matrices = np.array(img)
+    # Convert image into matrices of pixels
+    # Need convert into normal integer since pixel are stored in int8
+    # If not, overflow may occur and affect the calculation
+    pixel_Matrices = np.array(img, dtype=int)
 
-    # Convert matrix into a vector (from 2d array to 1d array)
+    # Convert matrices into a vector (from 2d array to 1d array)
     # If mode is 'L', pixels are represented in 1 matrix only
     if (img.mode == 'L') :
         vect = np.reshape(  pixel_Matrices, ( len(pixel_Matrices) * len(pixel_Matrices[0]) )  )
+    # Others may represent in 3 or more matrices
     else : 
         vect = np.reshape(  pixel_Matrices, ( len(pixel_Matrices) * len(pixel_Matrices[0]) * len(pixel_Matrices[0][0]) )  )
 
@@ -145,7 +145,7 @@ def aCS_Demostration() :
     brighten_Vect = modified_Vect.copy()
 
     # Value of pixel to be added on brighten vector
-    brightness = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    brightness = np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 
     # To store the calculation result for each brightness increment
     CS = np.empty(11)
@@ -188,7 +188,7 @@ def aCS_Demostration() :
 
 
 #----------------------------------------------MAIN PROGRAM------------------------------------------------------
-# Menu loop allow user to compare similarity as many times as desired 
+# Menu loop allow user to compare similarity as many times as desired
 while(True): 
     print("\n--------------Cosine Similarity(CS) and Adjusted Cosine Similarity(aCS) calculator-----------------")
     print("1: Calculate CS and aCS of 2 different images")
