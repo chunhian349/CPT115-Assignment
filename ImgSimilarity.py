@@ -73,17 +73,12 @@ def imgToVect(img_name) :
     img = Image.open(img_name)
 
     # Convert image into matrices of pixels
-    # Need convert into normal integer since pixel are stored in int8
+    # Need convert into int64 since pixel are stored in int8
     # If not, overflow may occur and affect the calculation
-    pixel_Matrices = np.array(img, dtype=int)
+    pixel_Matrices = np.array(img, dtype='int64')
 
     # Convert matrices into a vector (from 2d array to 1d array)
-    # If mode is 'L', pixels are represented in 1 matrix only
-    if (img.mode == 'L') :
-        vect = np.reshape(  pixel_Matrices, ( len(pixel_Matrices) * len(pixel_Matrices[0]) )  )
-    # Others may represent in 3 or more matrices
-    else : 
-        vect = np.reshape(  pixel_Matrices, ( len(pixel_Matrices) * len(pixel_Matrices[0]) * len(pixel_Matrices[0][0]) )  )
+    vect = np.reshape( pixel_Matrices,  pixel_Matrices.size )
 
     return vect
 
@@ -102,17 +97,21 @@ def calc_2_Images() :
     img_name2 = str(input("Enter filename of second image: "))
     vect2 = imgToVect(img_name2)
 
-    #Calculation and display result
-    CS = cosineSimilarity(vect1, vect2)
-    aCS = adjustedCosineSimilarity(vect1, vect2)
-    diff = abs( CS - aCS )
+    if (vect1.size == vect2.size):
+        #Calculation and display result
+        CS = cosineSimilarity(vect1, vect2)
+        aCS = adjustedCosineSimilarity(vect1, vect2)
+        diff = abs( CS - aCS )
 
-    print("\n                Calculation Result                ")
-    print("***************************************************")
-    print("Cosine similarity:                        %f" %CS)
-    print("Adjusted cosine similarity:               %f" %aCS)
-    print("Differences between CS and aCS:           %f" %diff)
-    print("***************************************************")
+        print("\n                Calculation Result                ")
+        print("***************************************************")
+        print("Cosine similarity:                        %f" %CS)
+        print("Adjusted cosine similarity:               %f" %aCS)
+        print("Differences between CS and aCS:           %f" %diff)
+        print("***************************************************")
+
+    else:
+        print("\nBoth images should have same size, try again later.")
 
     input("\nPress any key to continue...")
 
