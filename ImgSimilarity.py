@@ -148,9 +148,9 @@ def aCS_Demostration() :
     brightness = np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 
     # To store the calculation result for each brightness increment
-    CS = np.empty(11)
-    aCS = np.empty(11)
-    diff = np.empty(11)
+    CS = np.linspace(0, 0, 11)
+    aCS = np.linspace(0, 0, 11)
+    diff = np.linspace(0, 0, 11)
 
     for i in range ( len(brightness) ) :
         #Increase brightness of each pixel based on value of brightness[i]
